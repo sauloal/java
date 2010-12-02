@@ -1,0 +1,28 @@
+ <!--
+                =================
+                TWEAK SECTION
+http://www.nabble.com/Combine-all-the-jar-into-one-JAR-td17098906.html
+http://jalbum.net/forum/thread.jspa?messageID=186673
+                =================
+            -->
+      <target name="-post-jar">
+        <mkdir dir="${dist.dir}/tmp"/>
+        <unzip dest="${dist.dir}/tmp">
+          <fileset dir="${dist.dir}/lib/">
+              <include name="**/*.jar"/>
+          </fileset>
+        </unzip>
+        <unzip src="${dist.jar}" dest="${dist.dir}/tmp"/>
+
+        <jar jarfile="${dist.dir}/${application.title}_standalone.jar" level="9" compress="true" index="true">
+                <zipfileset dir="${dist.dir}/tmp"/>
+                <zipgroupfileset dir="${dist.dir}/lib/" includes="*.tar"/>
+
+            <manifest>
+                <attribute name="Main-Class" value="${main.class}"/>
+                <attribute name="Class-Path" value="${jar.classpath}"/>
+            </manifest>
+        </jar>
+        <delete dir="${dist.dir}/tmp" quiet="true" includeEmptyDirs="true"/>
+        <echo>Jared</echo>
+    </target>

@@ -1,0 +1,7 @@
+java swing ajax
+
+I have removed all the System.exit() calls in my code, but I am still getting java.security.AccessControlException exception.
+
+checkExit() is called in several cases. One is System.exit() and AjaxSwing handles that correctly (so you don't have to remove System.exit() as long as you understand that your client session would be terminated. Another case is calling setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE). Did you double check that you are not using EXIT_ON_CLOSE? Just making sure...
+
+http://creamtec.com/forums/index.php?action=printpage;topic=78.0

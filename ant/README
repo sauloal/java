@@ -1,0 +1,8 @@
+java build xml jdom netbeans standalone genjar
+
+
+build.xml
+
+Place the genJar.jar in the project root besides the build.xml
+copy rt.jar or any other resource from the jdk to your lib folder
+fix the project name in the file to suit your needs

@@ -1,0 +1,63 @@
+<!--
+                =================
+                TWEAK SECION
+http://www.nabble.com/Combine-all-the-jar-into-one-JAR-td17098906.html
+http://jalbum.net/forum/thread.jspa?messageID=186673
+                =================
+            -->
+                <target name="-post-jar">
+        <!--<mkdir dir="${dist.dir}/standalone" />
+-->
+
+        <mkdir dir="${dist.dir}/tmp"/>
+        <unzip src="${dist.dir}/lib/jdom.jar" dest="${dist.dir}/tmp"/>
+        <unzip src="${dist.jar}"              dest="${dist.dir}/tmp"/>
+        <!--<unzip src="${jar3}" dest="${dist.dir}/tmp"/>
+-->
+
+        <jar jarfile="${dist.dir}/${application.title}_standalone.jar" level="9" compress="true" index="true">
+                <zipfileset dir="${dist.dir}/tmp"/>
+                <zipgroupfileset dir="${dist.dir}/lib/" includes="*.tar"/>
+
+            <manifest>
+                <attribute name="Main-Class" value="${main.class}"/>
+                <attribute name="Class-Path" value="${jar.classpath}"/>
+            </manifest>
+        </jar>
+        <delete dir="${dist.dir}/tmp" quiet="true" includeEmptyDirs="true"/>
+
+<!--
+        <jar jarfile="${dist.dir}/${application.title}_standalone.jar" level="9" compress="true" index="true">
+
+
+            <zipgroupfileset dir="${dist.dir}/lib/" includes="*.tar"/>-->
+            <!--<zipfileset src="${dist.dir}/lib/jdom.jar"/>
+-->
+            <!--<zipfileset src="${dist.jar}"/>
+-->
+            <!--<zipgroupfileset dir="${dist.dir}" includes="*.tar"/>
+-->
+            <!--<zipfileset src="${dist.dir}/lib/jdom.jar"
+                        includes="**/JStackLabel.class **/ToggleAction*.class **/IO.class **/RiverLayout.class **/Ruler.class **/StringCodec.class"/>
+
+             -->
+            <!--<zipfileset src="${dist.dir}/lib/jdom.jar"/>
+-->
+            <!--<zipfileset dir="htdocs/manual" prefix="docs/user-guide"/>
+-->
+            <!--<globmapper from="*.java" to="*.class"/>
+-->
+            <!--<zipfileset src="${dist.dir}/lib/rsyntaxtextarea.jar" excludes="**/modes/*" />
+-->
+            <!--<zipfileset src="${dist.dir}/lib/rsyntaxtextarea.jar" includes="**/modes/PlainText* **/modes/JSP* **/modes/HTML* **/modes/CSS* **/modes/Java* **/modes/Properties* **/modes/XML*" />
+
+            -->
+<!--            <manifest>
+
+                <attribute name="Main-Class" value="${main.class}"/>
+                <attribute name="Class-Path" value="${jar.classpath}"/>
+            </manifest>-->
+        <!--</jar>
+-->
+        <echo>Jared</echo>
+    </target>

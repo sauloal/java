@@ -1,0 +1,113 @@
+<target name="-post-jar">
+       <property name="package.name" value="xmlpos"/>
+
+
+
+        <mkdir dir="${dist.dir}/tmp"/>
+        <unzip dest="${dist.dir}/tmp">
+          <fileset dir="${dist.dir}/lib/">
+              <include name="**/*.jar"/>
+          </fileset>
+        </unzip>
+        <unzip src="${dist.jar}" dest="${dist.dir}/tmp"/>
+
+        <jar jarfile="${dist.dir}/${package.name}_standalone.jar" level="9" compress="true" index="true">
+                <zipfileset dir="${dist.dir}/tmp"/>
+                <zipgroupfileset dir="${dist.dir}/lib/" includes="*.jar"/>
+
+            <manifest>
+                <attribute name="Main-Class" value="${main.class}"/>
+                <attribute name="Class-Path" value="${jar.classpath}"/>
+            </manifest>
+        </jar>
+        <echo>Jared</echo>
+
+
+
+        <taskdef resource="genjar.properties" classpath="GenJar.jar"></taskdef>
+<!--
+########################### LIB INDEPENDENT ##########################
+-->
+        <genjar jarfile="${dist.dir}/${package.name}_standalone2.jar">
+            <class>
+              <fileset dir="${build.classes.dir}">
+                <include name="${package.name}/*.class"/>
+              </fileset>
+            </class>
+
+            <resource>
+                <fileset dir="${dist.dir}/tmp">
+                    <include name="**/*.*" />
+                    <exclude name="**/*.class" />
+                    <exclude name="**/MANIFEST.MF" />
+                </fileset>
+            </resource>
+
+            <classpath>
+                <pathelement location="${build.classes.dir}"/>
+                <pathelement location="${dist.dir}/tmp"/>
+                <pathelement location="lib/rt.jar"/>
+            </classpath>
+
+
+            <manifest generateEntryAttributes='no'>
+                <attribute name="Main-Class" value="${main.class}"/>
+            </manifest>
+        </genjar>
+
+
+
+
+<!--
+########################### JRE INDEPENDENT ##########################
+-->
+<!--
+        <genjar jarfile="${dist.dir}/${package.name}_standalone3.jar">
+
+            <class>
+              <fileset dir="${build.classes.dir}">
+                <include name="${package.name}/*.class"/>
+              </fileset>
+            </class>
+
+            <resource>
+                <fileset dir="${dist.dir}/tmp">
+                    <include name="**/*.*" />
+                    <exclude name="**/*.class" />
+                    <exclude name="**/MANIFEST.MF" />
+                </fileset>
+            </resource>
+
+            <classfilter>
+              <include name="java." />
+              <include name="javax." />
+              <include name="sun." />
+              <include name="sunw." />
+              <include name="com.sun." />
+              <include name="org.omg." />
+              <include name="com.ibm.jvm." />
+            </classfilter>
+
+            <classpath>
+                <pathelement location="${build.classes.dir}"/>
+                <pathelement location="${dist.dir}/tmp"/>
+                <pathelement location="lib/jre/rt.jar"/>
+                <pathelement location="lib/jre/resources.jar"/>
+                <pathelement location="lib/jre/jsse.jar"/>
+                <pathelement location="lib/jre/jce.jar"/>
+                <pathelement location="lib/jre/charsets.jar"/>
+                <pathelement location="lib/jre/dnsns.jar"/>
+                <pathelement location="lib/jre/localedata.jar"/>
+                <pathelement location="lib/jre/sunjce_provider.jar"/>
+                <pathelement location="lib/jre/sunscapi.jar"/>
+                <pathelement location="lib/jre/sunpkcs11.jar"/>
+            </classpath>
+            
+            <manifest generateEntryAttributes='no'>
+                <attribute name="Main-Class" value="${main.class}"/>
+            </manifest>
+        </genjar>
+-->
+
+        <delete dir="${dist.dir}/tmp" quiet="true" includeEmptyDirs="true"/>
+    </target>
